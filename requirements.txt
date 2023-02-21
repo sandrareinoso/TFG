@@ -1,0 +1,13 @@
+flask
+IPython
+ipdb
+pymongo
+flask-restx
+numpy
+sklearn
+plotly
+pandas
+flask-login
+scikit-learn 
+scipy 
+matplotlib
