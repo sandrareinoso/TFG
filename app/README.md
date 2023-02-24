@@ -12,22 +12,13 @@ virtualenv
 A continuación se llevará a cabo una explicación de como realizar una puesta en marcha de la ApiRest del grupo para poder utilizarla de  manera local para desarrollar los diferentes proyectos del grupo. 
 
 ### Clonación del proyecto
-En primer lugar debemos hacer un clone  del proyecto que se encuentra en el repositorio  http://150.214.203.11:8000/tfgs2223/flask-api-rest-base.git mediante la siguiente orden:
+En primer lugar debemos hacer un clone  del proyecto que se encuentra en el repositorio  http://ugritailab.ugr.es:8000/tfgs2223/flask-api-rest-base.git mediante la siguiente orden:
 
 ~~~
-git clone http://150.214.203.11:8000/tfgs2223/flask-api-rest-base.git NombreDelProyectoEnTuMáquinaLocal
+git clone http://ugritailab.ugr.es:8000/tfgs2223/flask-api-rest-base.git NombreDelProyectoEnTuMáquinaLocal
 ~~~
 
 Una vez tengamos el proyecto en nuestro entorno  en nuestra máquina local pasaremos al siguiente paso que será crear un entorno virtual. 
-
-### Creación de una rama propia
-Cada desarrollador, para cada proyecto deberá de crear una rama propia con el nombre del proyecto y las iniciales del investigador.
-
-~~~
-git checkout -b name-proyecto-Iniciales_del_alumno ( proyectoRoberto-RMJ )
-~~~
-
-IMPORTANTE: Siempre se realizarán todas las actualizaciones locales en la rama del alumno. Posteriormente, si se considera oportuno por el/los tutor/es, se actualizará la funcionalidad implementada a  la API genérica del alumno mediante un pull request para verificar la implementación. Con esto se consigue  dar la posiblidad de trabajar sobre una API localmente para cualquier usuario independientemente si  el grupo desea incluir al proyecto genérico del grupo la funcionalidad implementada por el usuario.
 
 ### Creación entorno virtual 
 
@@ -73,4 +64,4 @@ El resultado mostrado debería ser algo como sigue:
 
 [Siguiente Paso]
 
-[Siguiente Paso]: <https://github.com/ugritlab/API_CLOUDS/tree/main/app/architecture>
+[Siguiente Paso]: <http://ugritailab.ugr.es:8000/tfgs2223/flask-api-rest-base/-/tree/main/app/architecture>

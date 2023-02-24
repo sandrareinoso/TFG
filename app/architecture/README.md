@@ -53,8 +53,8 @@ Importante: Se puede crear dentro del árbol de carpetas nuevos ficheros de que 
 Finalmente, añadir las variables ns_nombre_del_proyecto y nombre_del_proyecto_bp en el archivo, fichero [__init__.py]
 
 
-[service.py]: https://github.com/ugritlab/API_CLOUDS/blob/main/app/architecture/service.py
-[__init__.py]: https://github.com/ugritlab/API_CLOUDS/blob/main/app/__init__.py
+[service.py]: http://ugritailab.ugr.es:8000/tfgs2223/flask-api-rest-base/-/blob/main/app/architecture/service.py
+[__init__.py]: http://ugritailab.ugr.es:8000/tfgs2223/flask-api-rest-base/-/blob/main/app/__init__.py
 
 
 ~~~
