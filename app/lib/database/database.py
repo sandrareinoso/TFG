@@ -2,7 +2,10 @@ import pymongo
 from pymongo import MongoClient
 
 class database:
-
+    def prueba(self):
+        cadena="hola"
+        return cadena
+        
     #Function that get all name database allow access user. 
     def list_name_database(self):
         dbs = MongoClient('150.214.203.11:27017').list_database_names()
