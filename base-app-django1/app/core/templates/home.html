@@ -1,0 +1,377 @@
+{% extends "main_template.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/sandra.css' %}">
+
+{% block section-content   %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            
+            {% include "cards-category.html" %}
+        </div>
+        <!-- ./row  -->
+    </div>
+</section>
+
+<div class="card card-info invisibleEleccion" id="tarjetaEleccion">
+  <div class="card-header">
+    <h3 class="card-title">Elección Algoritmo</h3>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">
+    <form>
+      <div class="row">
+        <div class="col-sm-6">
+          <!-- select -->
+          <div class="form-group">         
+            <label for="clustering">Algoritmo de clustering </label>
+            <select id="clustering" class="form-control " name="clustering" onchange="elegirClustering()">
+              <option class="dropdown-item" value="0">Opciones</option>
+              <option class="dropdown-item" value="2">KNN</option>
+              <option class="dropdown-item" value="1">Jerárquico</option>
+              
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="asociacion">Regla de asociación</label>
+            <select id="asociacion"  class="form-control" name="asociacion" onchange="elegirAsociacion()">
+              <option class="dropdown-item" value="0">Opciones</option>
+              <option class="dropdown-item" value="3">A Priori</option>
+            </select>
+          </div>
+          </div>
+          
+      </div>
+    
+    </form>
+  </div>
+</div>
+
+<div class="card card-info invisibleJerarquico" id="tarjetaJerarquico">
+  <div class="card-header">
+    <div class="box"> <!--Alinea--> 
+      <h3 class="card-title">Algoritmo de Clustering Jerárquico</h3>
+      <button type="button" class="btn btn-tool" onclick="vuelta(this);">
+        <i class="fas fa-undo "></i></button>
+    </div>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">
+    <form>
+      <div class="row">
+        <div class="col-sm-6">
+          <!-- select -->
+          <div class="form-group">         
+            <label for="numero">Número de cluster (1-5)</label>
+            <select id="numero" class="form-control" name="numero">
+              <option class="dropdown-item" value="1">1</option>
+              <option class="dropdown-item" value="2">2</option>
+              <option class="dropdown-item" value="3">3</option>
+              <option class="dropdown-item" value="4">4</option>
+              <option class="dropdown-item" value="5">5</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+           
+            <label for="criterio">Críterio de vinculación</label>
+            <select id="criterio"  class="form-control" name="criterio">
+              <option class="dropdown-item"  value="ward">Método ward</option>
+              <option class="dropdown-item"  value="complete">Enlace completo</option>
+              <option class="dropdown-item" value="average">Enlace promedio</option>
+              <option class="dropdown-item" value="single">Enlace simple</option>
+            </select>
+          </div>
+          </div>
+          
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <!-- select -->
+            <div class="form-group">         
+              <label for="valorX">Valor del eje X</label>
+              <select id="valorX" class="form-control" name="valorX">
+                <option class="dropdown-item" value="age">Edad</option>
+                <option class="dropdown-item" value="sex">Sexo</option>
+                <option class="dropdown-item" value="bmi">Índice de grasa corporal</option>
+                <option class="dropdown-item" value="children">Nº de hijos</option>
+                <option class="dropdown-item" value="smoker">Fumador</option>
+                <option class="dropdown-item" value="charges">Coste del seguro</option>
+  
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+             
+              <label for="valorY">Valor del eje Y</label>
+              <select id="valorY"  class="form-control" name="valorY">
+                <option class="dropdown-item" value="age">Edad</option>
+                <option class="dropdown-item" value="sex">Sexo</option>
+                <option class="dropdown-item" value="bmi">Índice de grasa corporal</option>
+                <option class="dropdown-item" value="children">Nº de hijos</option>
+                <option class="dropdown-item" value="smoker">Fumador</option>
+                <option class="dropdown-item" value="charges">Coste del seguro</option>
+              </select>
+            </div>
+            </div>
+            
+        </div>
+      
+      <button type="button" onclick="enviarClustering(this);" class="btn btn-info">Enviar</button>
+    </form>
+  </div>
+  <!-- /.card-body -->
+  <div class=" " > <!--Alinea-->
+    <!-- SCATTER CHART -->
+    <div id="invisibleDispersion" class="invisible_s grafico">
+      <div class="card card-warning  ">
+        <div class="card-header">
+          <h3 id="titulo" class="card-title"></h3>
+      
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <canvas id="scatterChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+      <div class="box">
+        <a class="btn btn-info" href="{% static 'csv/data_clusters2-Jerárquico.csv' %}"> Exportar a CSV </a>
+        <button id="export" type="button" onclick="pasarPDF(this);" class="btn btn-block btn-info boton invisible_s">Exportar a PDF</button>
+      </div>
+      <br><br>
+    </div>
+    
+    </div>
+</div>
+
+<div class="card card-info invisibleKmers" id="tarjetaKmers">
+  <div class="card-header">
+    <div class="box"> <!--Alinea--> 
+      <h3 class="card-title">Algoritmo de Clustering KNN</h3>
+      <button type="button" class="btn btn-tool" onclick="vuelta(this);">
+        <i class="fas fa-undo "></i></button>
+      
+    </div>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">
+    <form>
+      <div class="row">
+        <div class="col-sm-6">
+          <!-- select -->
+          <div class="form-group">         
+            <label for="numero">Número de cluster (1-5)</label>
+            <select id="numero2" class="form-control" name="numero">
+              <option class="dropdown-item" value="1">1</option>
+              <option class="dropdown-item" value="2">2</option>
+              <option class="dropdown-item" value="3">3</option>
+              <option class="dropdown-item" value="4">4</option>
+              <option class="dropdown-item" value="5">5</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+           
+            <label for="criterio">Método de inicialización de los centroides</label>
+            <select id="criterio2"  class="form-control" name="criterio">
+              <option class="dropdown-item"  value="k-means">K-means++</option>
+              <option class="dropdown-item"  value="random">Random</option>
+            </select>
+          </div>
+          </div>
+          
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <!-- select -->
+          <div class="form-group">         
+            <label for="valorX2">Valor del eje X</label>
+            <select id="valorX2" class="form-control" name="valorX2">
+              <option class="dropdown-item" value="age">Edad</option>
+              <option class="dropdown-item" value="sex">Sexo</option>
+              <option class="dropdown-item" value="bmi">Índice de grasa corporal</option>
+              <option class="dropdown-item" value="children">Nº de hijos</option>
+              <option class="dropdown-item" value="smoker">Fumador</option>
+              <option class="dropdown-item" value="charges">Coste del seguro</option>
+
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+           
+            <label for="valorY2">Valor del eje Y</label>
+            <select id="valorY2"  class="form-control" name="valorY2">
+              <option class="dropdown-item" value="age">Edad</option>
+              <option class="dropdown-item" value="sex">Sexo</option>
+              <option class="dropdown-item" value="bmi">Índice de grasa corporal</option>
+              <option class="dropdown-item" value="children">Nº de hijos</option>
+              <option class="dropdown-item" value="smoker">Fumador</option>
+              <option class="dropdown-item" value="charges">Coste del seguro</option>
+            </select>
+          </div>
+          </div>
+          
+      </div>
+      <button type="button" onclick="enviarClustering(this);" class="btn btn-info">Enviar</button>
+    </form>
+  </div>
+  <!-- /.card-body -->
+  <div class=" " > <!--Alinea-->
+    <!-- SCATTER CHART -->
+    <div id="invisibleDispersion2" class="invisible_s grafico">
+      <div class="card card-warning " id="hola">
+        <div class="card-header">
+          <h3 id="titulo2" class="card-title"></h3>
+      
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <canvas id="scatterChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+      <div class="box">
+        <a class="btn btn-info" href="{% static 'csv/data_clusters2-Kmeans.csv' %}"> Exportar a CSV </a>
+
+        <button id="export2" type="button" onclick="pasarPDF(this);" class="btn btn-block btn-info boton invisible_s">Exportar a PDF</button>
+      </div>
+     
+      <br><br>
+    </div>
+    
+    </div>
+</div>
+
+<!-- Tarjeta A prior -->
+<div class="card card-info invisibleApriori" id="tarjetaApriori">
+  <div class="card-header">
+    <div class="box"> <!--Alinea--> 
+      <h3 class="card-title">Regla de asociación A priori</h3>
+      <button type="button" class="btn btn-tool" onclick="vuelta(this);">
+        <i class="fas fa-undo "></i></button>
+    </div>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">
+    <form>
+      <div class="row">
+        <div class="col-sm-6">
+          <!-- select -->
+          <div class="form-group">         
+            <label for="numero">Mínimo de confianza</label>
+            <input type="number" id="numero3" class="form-control" name="numero" min="0" max="1" step="0.01" value="0.5">         
+           </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+           
+            <label for="criterio">¿Qué intervalo de Coste del seguro desea estudiar?</label>
+            <select id="criterio3"  class="form-control" name="criterio">
+              <option class="dropdown-item"  value="Barato">Barato (Precios inferiores a 8000)</option>
+              <option class="dropdown-item"  value="JustiPrecio">Medio (Precios entre 8000 y 16000)</option>
+              <option class="dropdown-item" value="Caro">Caro (Precios mayores de 16000) </option>
+            </select>
+          </div>
+          </div>
+          
+        </div>
+        <button type="button" onclick="enviarAsociacion(this);" class="btn btn-info">Obtener Reglas de Asociación</button>
+        <br><br>
+        <div id="tablaAsociacion" class="card tablaAsociacion card-warning">
+          <div class="card-header ">
+            <h3 class="card-title">Reglas de Asociación obtenidas</h3>
+
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover text-nowrap">
+              
+                <div id="reglas"></div>
+              
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+ 
+        
+        
+    </form>
+  </div>
+  <!-- /.card-body -->
+  <div class=" " > <!--Alinea-->
+    <!-- SCATTER CHART -->
+    <div id="invisibleDispersion3" class="invisible_s grafico">
+      <div class="card card-warning  ">
+        <div class="card-header">
+          <h3 id="titulo3" class="card-title"></h3>
+      
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <canvas id="scatterChart3" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+      <div class="box">
+        <a class="btn btn-info" href="{% static 'csv/data_clusters2-Jerárquico.csv' %}"> Exportar a CSV </a>
+        <button id="export3" type="button" onclick="pasarPDF(this);" class="btn btn-block btn-info boton invisible_s">Exportar a PDF</button>
+      </div>
+      <br><br>
+    </div>
+    
+    </div>
+</div>
+
+<br>
+
+
+
+<!-- PDF -->
+<div id="exportado" class="invisible">
+
+</div>
+  <img id="ugr" style="display: none;" src="../static/img/UGR-Logo.png" width="150px"/>
+
+{% endblock section-content %}
+
+{% block special_javascript %}
+
+<script src="{% static 'js/chartjs-library.js' %}"></script>
+<script src="{% static 'js/charts-custom.js' %}"></script>
+
+<script src="{% static 'js/data-table-custom.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/data-table-custom.css' %}"></link>
+
+{% endblock %}
